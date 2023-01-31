@@ -1,4 +1,4 @@
-import { Min, MinLength } from "class-validator";
+import { Min, MinLength, ValidateNested } from "class-validator";
 import { Field, InputType, Int, ObjectType } from "type-graphql";
 import {
   Column,
@@ -24,7 +24,7 @@ class Order {
   @Column()
   customerAddr: string;
 
-  @OneToMany(() => OrderItem, (item) => item.order)
+  @OneToMany(() => OrderItem, (item) => item.order, { cascade: true })
   items: OrderItem[];
 
   @CreateDateColumn()
@@ -52,6 +52,7 @@ export class CreateOrderInput {
   customerAddr: string;
 
   @Field(() => [CartItem])
+  @ValidateNested()
   items: CartItem[];
 }
 
