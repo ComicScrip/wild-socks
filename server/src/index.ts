@@ -11,6 +11,7 @@ import { buildSchema } from "type-graphql";
 import db from "./db";
 import { env } from "./env";
 import ProductResolver from "./resolvers/productsResolver";
+import OrdersResolver from "./resolvers/ordersResolver";
 
 const start = async (): Promise<void> => {
   await db.initialize();
@@ -31,7 +32,7 @@ const start = async (): Promise<void> => {
   );
 
   const schema = await buildSchema({
-    resolvers: [ProductResolver],
+    resolvers: [ProductResolver, OrdersResolver],
   });
 
   const server = new ApolloServer({

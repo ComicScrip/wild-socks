@@ -1,9 +1,13 @@
 import db from "./src/db";
+import Order from "./src/entity/Order";
+import OrderItem from "./src/entity/OrderItem";
 import Product from "./src/entity/Product";
 
 async function seed(): Promise<void> {
   await db.initialize();
   await db.getRepository(Product).delete({});
+  await db.getRepository(OrderItem).delete({});
+  await db.getRepository(Order).delete({});
   await db.getRepository(Product).insert([
     {
       name: "Socks1",
