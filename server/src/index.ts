@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import http from "http";
+import cors from "cors";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import {
@@ -16,6 +17,18 @@ const start = async (): Promise<void> => {
 
   const app = express();
   const httpServer = http.createServer(app);
+  const allowedOrigins = env.CORS_ALLOWED_ORIGINS.split(",");
+
+  app.use(
+    cors({
+      credentials: true,
+      origin: (origin, callback) => {
+        if (typeof origin === "undefined" || allowedOrigins.includes(origin))
+          return callback(null, true);
+        callback(new Error("Not allowed by CORS"));
+      },
+    })
+  );
 
   const schema = await buildSchema({
     resolvers: [ProductResolver],

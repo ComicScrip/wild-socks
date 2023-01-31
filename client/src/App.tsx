@@ -1,5 +1,11 @@
+import { useProductsQuery } from "./gql/generated/schema";
+
 function App() {
-  return <div>my app</div>;
+  const { data, error } = useProductsQuery();
+
+  console.log({ data, error });
+
+  return <div>products</div>;
 }
 
 export default App;
