@@ -12,6 +12,7 @@ services:
     ports:
       - 5432:5432
   server:
+    restart: always
     depends_on:
       db:
         condition: service_healthy

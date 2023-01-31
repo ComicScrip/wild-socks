@@ -15,20 +15,33 @@ export type Scalars = {
   Float: number;
 };
 
+export type Product = {
+  __typename?: 'Product';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  pictureUrl: Scalars['String'];
+  price: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  products: Scalars['Boolean'];
+  products: Array<Product>;
 };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products: boolean };
+export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: number, name: string, pictureUrl: string, price: number }> };
 
 
 export const ProductsDocument = gql`
     query products {
-  products
+  products {
+    id
+    name
+    pictureUrl
+    price
+  }
 }
     `;
 
