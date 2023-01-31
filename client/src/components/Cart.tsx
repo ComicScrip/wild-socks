@@ -1,7 +1,7 @@
 import useCartItems from "../hooks/useCartItems";
 
 export default function Cart() {
-  const { cartItems, updateQuantity } = useCartItems();
+  const { cartItems, updateQuantity, total } = useCartItems();
 
   return (
     <div>
@@ -32,6 +32,8 @@ export default function Cart() {
           </button>
         </div>
       ))}
+
+      <p>{total}</p>
     </div>
   );
 }
