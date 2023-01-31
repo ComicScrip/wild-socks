@@ -40,5 +40,10 @@ export default function useCartItems() {
       );
   }
 
-  return { cartItems, setCartItems, addProductToCart, updateQuantity };
+  const total = cartItems.reduce(
+    (acc, curr) => acc + curr.price * curr.quantity,
+    0
+  );
+
+  return { cartItems, setCartItems, addProductToCart, updateQuantity, total };
 }
