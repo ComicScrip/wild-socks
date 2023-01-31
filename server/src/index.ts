@@ -8,12 +8,12 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
 } from "apollo-server-core";
 import { buildSchema } from "type-graphql";
-// import db from "./db";
+import db from "./db";
 import { env } from "./env";
 import ProductResolver from "./resolvers/productsResolver";
 
 const start = async (): Promise<void> => {
-  // await db.initialize();
+  await db.initialize();
 
   const app = express();
   const httpServer = http.createServer(app);
