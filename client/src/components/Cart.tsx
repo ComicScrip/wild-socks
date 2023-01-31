@@ -33,7 +33,7 @@ export default function Cart() {
         </div>
       ))}
 
-      <p>{total}</p>
+      <p>Total: ${total}</p>
     </div>
   );
 }
