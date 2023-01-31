@@ -22,3 +22,9 @@ services:
       - 4000:4000
     volumes:
       - ./server/src:/app/src
+  client:
+    build: './client'
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src
