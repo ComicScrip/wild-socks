@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import Cart from "./components/Cart";
 import Header from "./components/Header";
 import ProductCard from "./components/ProductCard";
 import { useProductsQuery } from "./gql/generated/schema";
@@ -12,9 +12,12 @@ function App() {
     <div>
       <Header />
       <div style={{ display: "flex" }}>
-        {products.map((p) => (
-          <ProductCard product={p} key={p.id} />
-        ))}
+        <div style={{ display: "flex" }}>
+          {products.map((p) => (
+            <ProductCard product={p} key={p.id} />
+          ))}
+        </div>
+        <Cart />
       </div>
     </div>
   );
