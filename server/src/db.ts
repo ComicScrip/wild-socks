@@ -1,4 +1,6 @@
 import { DataSource } from "typeorm";
+import Order from "./entity/Order";
+import OrderItem from "./entity/OrderItem";
 import Product from "./entity/Product";
 import { env } from "./env";
 
@@ -10,6 +12,6 @@ export default new DataSource({
   password: "postgres",
   database: "postgres",
   synchronize: true,
-  entities: [Product],
+  entities: [Product, Order, OrderItem],
   logging: ["error"],
 });
