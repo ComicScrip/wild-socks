@@ -1,24 +1,16 @@
-import Cart from "./components/Cart";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import ProductCard from "./components/ProductCard";
-import { useProductsQuery } from "./gql/generated/schema";
+import { HomeScreen } from "./screens/HomeScreen";
+import { LoginScreen } from "./screens/LoginScreen";
 
 function App() {
-  const { data } = useProductsQuery();
-
-  const products = data?.products || [];
-
   return (
     <div>
       <Header />
-      <div style={{ display: "flex" }}>
-        <div style={{ display: "flex" }}>
-          {products.map((p) => (
-            <ProductCard product={p} key={p.id} />
-          ))}
-        </div>
-        <Cart />
-      </div>
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
+      </Routes>
     </div>
   );
 }
