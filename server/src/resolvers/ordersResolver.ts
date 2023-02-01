@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver } from "type-graphql";
 import db from "../db";
 import Order, { CreateOrderInput } from "../entity/Order";
 import OrderItem from "../entity/OrderItem";
@@ -7,28 +7,27 @@ import Product from "../entity/Product";
 @Resolver()
 export default class OrdersResolver {
   @Mutation(() => Order)
-  async createOrder(@Arg("data") data: CreateOrderInput): Promise<Order> {
-    const newOrder = new Order();
-    newOrder.customerAddr = data.customerAddr;
-    newOrder.customerName = data.customerName;
+  async createOrder(
+    @Arg("data", { validate: { always: true } }) data: CreateOrderInput
+  ): Promise<Order> {
+    const { customerAddr, customerName } = data;
 
-    const createdOrder = await db.getRepository(Order).save(newOrder);
+    const items = await Promise.all(
+      data.items.map(async (item): Promise<Partial<OrderItem>> => {
+        const p = await db
+          .getRepository(Product)
+          .findOneByOrFail({ id: item.productId });
+        return {
+          productName: p.name,
+          productPictureUrl: p.pictureUrl,
+          productPrice: p.price,
+          quantity: item.quantity,
+        };
+      })
+    );
 
-    for (const item of data.items) {
-      const product = await db
-        .getRepository(Product)
-        .findOneByOrFail({ id: item.productId });
-
-      const orderItem = new OrderItem();
-      orderItem.productName = product.name;
-      orderItem.productPictureUrl = product.pictureUrl;
-      orderItem.productPrice = product.price;
-      orderItem.quantity = item.quantity;
-      orderItem.order = createdOrder;
-
-      await db.getRepository(OrderItem).save(orderItem);
-    }
-
-    return createdOrder;
+    return await db
+      .getRepository(Order)
+      .save({ customerName, customerAddr, items });
   }
 }

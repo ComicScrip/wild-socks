@@ -28,6 +28,8 @@ async function seed(): Promise<void> {
       price: 10.0,
     },
   ]);
+  await db.destroy();
+  console.log("done !");
 }
 
 seed().catch(console.error);
