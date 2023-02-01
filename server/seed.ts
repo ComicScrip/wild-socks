@@ -2,6 +2,7 @@ import db from "./src/db";
 import Order from "./src/entity/Order";
 import OrderItem from "./src/entity/OrderItem";
 import Product from "./src/entity/Product";
+import User, { hashPassword } from "./src/entity/User";
 
 async function seed(): Promise<void> {
   await db.initialize();
@@ -28,6 +29,12 @@ async function seed(): Promise<void> {
       price: 10.0,
     },
   ]);
+
+  await db.getRepository(User).insert({
+    email: "admin@app.com",
+    password: await hashPassword("Test@123"),
+  });
+
   await db.destroy();
   console.log("done !");
 }

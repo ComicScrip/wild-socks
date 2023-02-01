@@ -1,5 +1,5 @@
 import { ApolloError } from "apollo-server-errors";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver } from "type-graphql";
 import db from "../db";
 import Order, { CreateOrderInput } from "../entity/Order";
 import OrderItem from "../entity/OrderItem";
