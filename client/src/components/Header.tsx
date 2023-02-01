@@ -30,7 +30,7 @@ export default function Header() {
           </li>
           {canShowbackOfficeLink && (
             <li>
-              <Link to="/back-office">Back-office</Link>
+              <Link to="/admin">Back-office</Link>
             </li>
           )}
         </ul>

@@ -1,0 +1,14 @@
+query Orders {
+  orders {
+    id
+    customerName
+    customerAddr
+    items {
+      id
+      productName
+      productPictureUrl
+      productPrice
+      quantity
+    }
+  }
+}

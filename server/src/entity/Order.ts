@@ -25,6 +25,7 @@ class Order {
   customerAddr: string;
 
   @OneToMany(() => OrderItem, (item) => item.order, { cascade: true })
+  @Field(() => [OrderItem])
   items: OrderItem[];
 
   @CreateDateColumn()

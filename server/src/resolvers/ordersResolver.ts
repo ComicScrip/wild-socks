@@ -1,5 +1,5 @@
 import { ApolloError } from "apollo-server-errors";
-import { Arg, Mutation, Resolver } from "type-graphql";
+import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import db from "../db";
 import Order, { CreateOrderInput } from "../entity/Order";
 import OrderItem from "../entity/OrderItem";
@@ -31,5 +31,11 @@ export default class OrdersResolver {
         })
       ),
     });
+  }
+
+  @Authorized()
+  @Query(() => [Order])
+  async orders(): Promise<Order[]> {
+    return await db.getRepository(Order).find({ relations: { items: true } });
   }
 }
