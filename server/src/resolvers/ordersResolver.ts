@@ -1,3 +1,4 @@
+import { ApolloError } from "apollo-server-errors";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import db from "../db";
 import Order, { CreateOrderInput } from "../entity/Order";
@@ -8,27 +9,27 @@ import Product from "../entity/Product";
 export default class OrdersResolver {
   @Mutation(() => Order)
   async createOrder(@Arg("data") data: CreateOrderInput): Promise<Order> {
-    const newOrder = new Order();
-    newOrder.customerAddr = data.customerAddr;
-    newOrder.customerName = data.customerName;
+    const { customerAddr, customerName } = data;
 
-    const createdOrder = await db.getRepository(Order).save(newOrder);
+    if (data.items.length === 0)
+      throw new ApolloError("no cart items !", "NO_CART_ITEMS");
 
-    for (const item of data.items) {
-      const product = await db
-        .getRepository(Product)
-        .findOneByOrFail({ id: item.productId });
-
-      const orderItem = new OrderItem();
-      orderItem.productName = product.name;
-      orderItem.productPictureUrl = product.pictureUrl;
-      orderItem.productPrice = product.price;
-      orderItem.quantity = item.quantity;
-      orderItem.order = createdOrder;
-
-      await db.getRepository(OrderItem).save(orderItem);
-    }
-
-    return createdOrder;
+    return await db.getRepository(Order).save({
+      customerAddr,
+      customerName,
+      items: await Promise.all(
+        data.items.map(async (item): Promise<Partial<OrderItem>> => {
+          const product = await db
+            .getRepository(Product)
+            .findOneByOrFail({ id: item.productId });
+          return {
+            productName: product.name,
+            productPictureUrl: product.pictureUrl,
+            productPrice: product.price,
+            quantity: item.quantity,
+          };
+        })
+      ),
+    });
   }
 }
