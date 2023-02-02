@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useGetProfileQuery } from "../gql/generated/schema";
 
 export default function Header() {
-  const { data: currentUser, client } = useGetProfileQuery({
+  const { data: currentUser } = useGetProfileQuery({
     errorPolicy: "ignore",
   });
 
