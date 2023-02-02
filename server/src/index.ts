@@ -52,8 +52,6 @@ const start = async (): Promise<void> => {
       const tokenInCookie = context.req.cookies?.token;
       const token = tokenInHeaders ?? tokenInCookie;
 
-      console.log({ tokenInCookie, tokenInHeaders });
-
       try {
         let decoded;
         // https://www.npmjs.com/package/jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback
