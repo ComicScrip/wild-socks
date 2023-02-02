@@ -10,7 +10,7 @@ export default function Cart() {
   const [createOrder] = useCreateOrderMutation();
 
   return (
-    <div>
+    <div data-testid="cartContainer">
       <h2>Cart</h2>
 
       {cartItems.length === 0 ? (
@@ -18,7 +18,11 @@ export default function Cart() {
       ) : (
         <>
           {cartItems.map((item, idx) => (
-            <div key={idx} style={{ display: "flex" }}>
+            <div
+              key={idx}
+              style={{ display: "flex" }}
+              data-testid={`cartItem-${item.id}`}
+            >
               <img
                 src={item.pictureUrl}
                 alt={item.name}
@@ -26,6 +30,7 @@ export default function Cart() {
               />
               <p>{item.name}</p>
               <button
+                data-testid={`cartItem-${item.id}-decrementQuantityButton`}
                 onClick={() => {
                   updateQuantity(item, item.quantity - 1);
                 }}
@@ -34,6 +39,7 @@ export default function Cart() {
               </button>
               <p>{item.quantity}</p>
               <button
+                data-testid={`cartItem-${item.id}-incrementQuantityButton`}
                 onClick={() => {
                   updateQuantity(item, item.quantity + 1);
                 }}
@@ -43,7 +49,7 @@ export default function Cart() {
             </div>
           ))}
 
-          <p>Total: ${total}</p>
+          <p data-testid="cartTotal">Total: ${total}</p>
 
           <form
             onSubmit={async (e) => {
@@ -72,6 +78,7 @@ export default function Cart() {
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="Your name"
               required
+              data-testid="createOrderNameInput"
             />
 
             <input
@@ -80,8 +87,11 @@ export default function Cart() {
               value={customerAddr}
               onChange={(e) => setCustomerAddr(e.target.value)}
               placeholder="Your address"
+              data-testid="createOrderAddrInput"
             />
-            <button type="submit">ORDER NOW</button>
+            <button type="submit" data-testid="createOrderBtn">
+              ORDER NOW
+            </button>
           </form>
         </>
       )}

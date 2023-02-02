@@ -12,6 +12,7 @@ export default function ProductCard({
 
   return (
     <div
+      data-testid={`productCard-${id}`}
       style={{ width: 250, height: 250, border: "1px solid black", margin: 20 }}
       onClick={() => addProductToCart({ id, name, pictureUrl, price })}
     >
