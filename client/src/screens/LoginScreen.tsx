@@ -24,7 +24,6 @@ export function LoginScreen() {
           <p>Connected as {currentUser?.profile.email}.</p>
           <button
             onClick={async () => {
-              console.log("logout");
               await logout();
               client.resetStore();
             }}
@@ -36,7 +35,6 @@ export function LoginScreen() {
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            console.log({ email, password });
             await login({ variables: { data: { email, password } } });
             client.resetStore();
           }}

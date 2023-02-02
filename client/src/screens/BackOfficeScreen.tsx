@@ -14,8 +14,6 @@ export default function BackOfficeScreen() {
 
   const orders = data?.orders ?? [];
 
-  console.log({ data });
-
   return (
     <div>
       Last Orders
