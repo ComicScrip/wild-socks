@@ -35,6 +35,42 @@ async function seed(): Promise<void> {
     password: await hashPassword("Test@123"),
   });
 
+  await db.getRepository(Order).save([
+    {
+      customerName: "John doe",
+      customerAddr: "john addr",
+      items: [
+        {
+          productName: "Socks1",
+          productPictureUrl:
+            "https://imgs.search.brave.com/u8GvP8GLEZj2BUqf1kUAKZWHfH2LoM1uslrltB3EY3g/rs:fit:177:168:1/g:ce/aHR0cDovL3A1LnN0/b3JhZ2UuY2FuYWxi/bG9nLmNvbS81OS8w/NC8xNDg1MzMvNzU0/ODk3MC5qcGc",
+          productPrice: 20.0,
+          quantity: 2,
+        },
+        {
+          productName: "Socks2",
+          productPictureUrl:
+            "https://assets.ullapopken.de/images/products/805446802_model_g_30.jpg",
+          productPrice: 15.0,
+          quantity: 3,
+        },
+      ],
+    },
+    {
+      customerName: "Jane doe",
+      customerAddr: "jane addr",
+      items: [
+        {
+          productName: "Socks1",
+          productPictureUrl:
+            "https://imgs.search.brave.com/u8GvP8GLEZj2BUqf1kUAKZWHfH2LoM1uslrltB3EY3g/rs:fit:177:168:1/g:ce/aHR0cDovL3A1LnN0/b3JhZ2UuY2FuYWxi/bG9nLmNvbS81OS8w/NC8xNDg1MzMvNzU0/ODk3MC5qcGc",
+          productPrice: 20.0,
+          quantity: 1,
+        },
+      ],
+    },
+  ]);
+
   await db.destroy();
   console.log("done !");
 }

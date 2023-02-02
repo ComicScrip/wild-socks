@@ -17,8 +17,6 @@ export class UsersResolver {
     @Ctx() ctx: ContextType,
     @Arg("data") { email, password }: LoginInput
   ): Promise<string> {
-    console.log({ ctx });
-
     const user = await db.getRepository(User).findOneBy({ email });
 
     if (

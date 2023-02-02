@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useGetProfileQuery } from "../gql/generated/schema";
 
 export default function Header() {
-  const { data: currentUser, client } = useGetProfileQuery({
+  const { data: currentUser } = useGetProfileQuery({
     errorPolicy: "ignore",
   });
 
@@ -30,7 +30,7 @@ export default function Header() {
           </li>
           {canShowbackOfficeLink && (
             <li>
-              <Link to="/back-office">Back-office</Link>
+              <Link to="/admin">Back-office</Link>
             </li>
           )}
         </ul>

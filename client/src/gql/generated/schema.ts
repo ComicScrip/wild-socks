@@ -53,6 +53,16 @@ export type Order = {
   customerAddr: Scalars['String'];
   customerName: Scalars['String'];
   id: Scalars['Int'];
+  items: Array<OrderItem>;
+};
+
+export type OrderItem = {
+  __typename?: 'OrderItem';
+  id: Scalars['Int'];
+  productName: Scalars['String'];
+  productPictureUrl: Scalars['String'];
+  productPrice: Scalars['Float'];
+  quantity: Scalars['Float'];
 };
 
 export type Product = {
@@ -65,6 +75,7 @@ export type Product = {
 
 export type Query = {
   __typename?: 'Query';
+  orders: Array<Order>;
   products: Array<Product>;
   profile: User;
 };
@@ -103,6 +114,11 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: string };
+
+export type OrdersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OrdersQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', id: number, customerName: string, customerAddr: string, items: Array<{ __typename?: 'OrderItem', id: number, productName: string, productPictureUrl: string, productPrice: number, quantity: number }> }> };
 
 
 export const CreateOrderDocument = gql`
@@ -271,3 +287,46 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const OrdersDocument = gql`
+    query Orders {
+  orders {
+    id
+    customerName
+    customerAddr
+    items {
+      id
+      productName
+      productPictureUrl
+      productPrice
+      quantity
+    }
+  }
+}
+    `;
+
+/**
+ * __useOrdersQuery__
+ *
+ * To run a query within a React component, call `useOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrdersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOrdersQuery(baseOptions?: Apollo.QueryHookOptions<OrdersQuery, OrdersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrdersQuery, OrdersQueryVariables>(OrdersDocument, options);
+      }
+export function useOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrdersQuery, OrdersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrdersQuery, OrdersQueryVariables>(OrdersDocument, options);
+        }
+export type OrdersQueryHookResult = ReturnType<typeof useOrdersQuery>;
+export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>;
+export type OrdersQueryResult = Apollo.QueryResult<OrdersQuery, OrdersQueryVariables>;
